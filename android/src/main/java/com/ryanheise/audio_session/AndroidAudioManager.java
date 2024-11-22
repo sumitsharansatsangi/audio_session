@@ -13,6 +13,8 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Pair;
 import android.view.KeyEvent;
+
+import androidx.annotation.NonNull;
 import androidx.media.AudioAttributesCompat;
 import androidx.media.AudioFocusRequestCompat;
 import androidx.media.AudioManagerCompat;
@@ -27,6 +29,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class AndroidAudioManager implements MethodCallHandler {
     // TODO: synchronize access
@@ -45,186 +48,226 @@ public class AndroidAudioManager implements MethodCallHandler {
     }
 
     @Override
-    public void onMethodCall(final MethodCall call, final Result result) {
+    public void onMethodCall(@NonNull final MethodCall call, @NonNull final Result result) {
         try {
-            List<?> args = (List<?>)call.arguments;
+            List<?> args = (List<?>) call.arguments;
             switch (call.method) {
-            case "requestAudioFocus": {
-                result.success(singleton.requestAudioFocus(args));
-                break;
-            }
-            case "abandonAudioFocus": {
-                result.success(singleton.abandonAudioFocus());
-                break;
-            }
-            case "dispatchMediaKeyEvent": {
-                result.success(singleton.dispatchMediaKeyEvent((Map<?, ?>)args.get(0)));
-                break;
-            }
-            case "isVolumeFixed": {
-                result.success(singleton.isVolumeFixed());
-                break;
-            }
-            case "adjustStreamVolume": {
-                result.success(singleton.adjustStreamVolume((Integer)args.get(0), (Integer)args.get(1), (Integer)args.get(2)));
-                break;
-            }
-            case "adjustVolume": {
-                result.success(singleton.adjustVolume((Integer)args.get(0), (Integer)args.get(1)));
-                break;
-            }
-            case "adjustSuggestedStreamVolume": {
-                result.success(singleton.adjustSuggestedStreamVolume((Integer)args.get(0), (Integer)args.get(1), (Integer)args.get(2)));
-                break;
-            }
-            case "getRingerMode": {
-                result.success(singleton.getRingerMode());
-                break;
-            }
-            case "getStreamMaxVolume": {
-                result.success(singleton.getStreamMaxVolume((Integer)args.get(0)));
-                break;
-            }
-            case "getStreamMinVolume": {
-                result.success(singleton.getStreamMinVolume((Integer)args.get(0)));
-                break;
-            }
-            case "getStreamVolume": {
-                result.success(singleton.getStreamVolume((Integer)args.get(0)));
-                break;
-            }
-            case "getStreamVolumeDb": {
-                result.success(singleton.getStreamVolumeDb((Integer)args.get(0), (Integer)args.get(1), (Integer)args.get(2)));
-                break;
-            }
-            case "setRingerMode": {
-                result.success(singleton.setRingerMode((Integer)args.get(0)));
-                break;
-            }
-            case "setStreamVolume": {
-                result.success(singleton.setStreamVolume((Integer)args.get(0), (Integer)args.get(1), (Integer)args.get(2)));
-                break;
-            }
-            case "isStreamMute": {
-                result.success(singleton.isStreamMute((Integer)args.get(0)));
-                break;
-            }
-            case "getAvailableCommunicationDevices": {
-                result.success(singleton.getAvailableCommunicationDevices());
-                break;
-            }
-            case "setCommunicationDevice": {
-                result.success(singleton.setCommunicationDevice((Integer)args.get(0)));
-                break;
-            }
-            case "getCommunicationDevice": {
-                result.success(singleton.getCommunicationDevice());
-                break;
-            }
-            case "clearCommunicationDevice": {
-                result.success(singleton.clearCommunicationDevice());
-                break;
-            }
-            case "setSpeakerphoneOn": {
-                result.success(singleton.setSpeakerphoneOn((Boolean)args.get(0)));
-                break;
-            }
-            case "isSpeakerphoneOn": {
-                result.success(singleton.isSpeakerphoneOn());
-                break;
-            }
-            case "setAllowedCapturePolicy": {
-                result.success(singleton.setAllowedCapturePolicy((Integer)args.get(0)));
-                break;
-            }
-            case "getAllowedCapturePolicy": {
-                result.success(singleton.getAllowedCapturePolicy());
-                break;
-            }
-            case "isBluetoothScoAvailableOffCall": {
-                result.success(singleton.isBluetoothScoAvailableOffCall());
-                break;
-            }
-            case "startBluetoothSco": {
-                result.success(singleton.startBluetoothSco());
-                break;
-            }
-            case "stopBluetoothSco": {
-                result.success(singleton.stopBluetoothSco());
-                break;
-            }
-            case "setBluetoothScoOn": {
-                result.success(singleton.setBluetoothScoOn((Boolean)args.get(0)));
-                break;
-            }
-            case "isBluetoothScoOn": {
-                result.success(singleton.isBluetoothScoOn());
-                break;
-            }
-            case "setMicrophoneMute": {
-                result.success(singleton.setMicrophoneMute((Boolean)args.get(0)));
-                break;
-            }
-            case "isMicrophoneMute": {
-                result.success(singleton.isMicrophoneMute());
-                break;
-            }
-            case "setMode": {
-                result.success(singleton.setMode((Integer)args.get(0)));
-                break;
-            }
-            case "getMode": {
-                result.success(singleton.getMode());
-                break;
-            }
-            case "isMusicActive": {
-                result.success(singleton.isMusicActive());
-                break;
-            }
-            case "generateAudioSessionId": {
-                result.success(singleton.generateAudioSessionId());
-                break;
-            }
-            case "setParameters": {
-                result.success(singleton.setParameters((String)args.get(0)));
-                break;
-            }
-            case "getParameters": {
-                result.success(singleton.getParameters((String)args.get(0)));
-                break;
-            }
-            case "playSoundEffect": {
-                result.success(singleton.playSoundEffect((Integer)args.get(0), (Double)args.get(1)));
-                break;
-            }
-            case "loadSoundEffects": {
-                result.success(singleton.loadSoundEffects());
-                break;
-            }
-            case "unloadSoundEffects": {
-                result.success(singleton.unloadSoundEffects());
-                break;
-            }
-            case "getProperty": {
-                result.success(singleton.getProperty((String)args.get(0)));
-                break;
-            }
-            case "getDevices": {
-                result.success(singleton.getDevices((Integer)args.get(0)));
-                break;
-            }
-            case "getMicrophones": {
-                result.success(singleton.getMicrophones());
-                break;
-            }
-            case "isHapticPlaybackSupported": {
-                result.success(singleton.isHapticPlaybackSupported());
-                break;
-            }
-            default: {
-                result.notImplemented();
-                break;
-            }
+                case "requestAudioFocus": {
+                    result.success(singleton.requestAudioFocus(args));
+                    break;
+                }
+                case "abandonAudioFocus": {
+                    result.success(singleton.abandonAudioFocus());
+                    break;
+                }
+                case "dispatchMediaKeyEvent": {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
+                        result.success(singleton.dispatchMediaKeyEvent((Map<?, ?>) args.getFirst()));
+                    } else {
+                        result.success(singleton.dispatchMediaKeyEvent((Map<?, ?>) args.get(0)));
+                    }
+                    break;
+                }
+                case "isVolumeFixed": {
+                    result.success(singleton.isVolumeFixed());
+                    break;
+                }
+                case "adjustStreamVolume": {
+                    result.success(singleton.adjustStreamVolume((Integer) args.get(0), (Integer) args.get(1), (Integer) args.get(2)));
+                    break;
+                }
+                case "adjustVolume": {
+                    result.success(singleton.adjustVolume((Integer) args.get(0), (Integer) args.get(1)));
+                    break;
+                }
+                case "adjustSuggestedStreamVolume": {
+                    result.success(singleton.adjustSuggestedStreamVolume((Integer) args.get(0), (Integer) args.get(1), (Integer) args.get(2)));
+                    break;
+                }
+                case "getRingerMode": {
+                    result.success(singleton.getRingerMode());
+                    break;
+                }
+                case "getStreamMaxVolume": {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
+                        result.success(singleton.getStreamMaxVolume((Integer) args.getFirst()));
+                    } else {
+                        result.success(singleton.getStreamMaxVolume((Integer) args.get(0)));
+                    }
+                    break;
+                }
+                case "getStreamMinVolume": {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
+                        result.success(singleton.getStreamMinVolume((Integer) args.getFirst()));
+                    } else {
+                        result.success(singleton.getStreamMinVolume((Integer) args.get(0)));
+                    }
+                    break;
+                }
+                case "getStreamVolume": {
+                    result.success(singleton.getStreamVolume((Integer) args.get(0)));
+                    break;
+                }
+                case "getStreamVolumeDb": {
+                    result.success(singleton.getStreamVolumeDb((Integer) args.get(0), (Integer) args.get(1), (Integer) args.get(2)));
+                    break;
+                }
+                case "setRingerMode": {
+                    result.success(singleton.setRingerMode((Integer) args.get(0)));
+                    break;
+                }
+                case "setStreamVolume": {
+                    result.success(singleton.setStreamVolume((Integer) args.get(0), (Integer) args.get(1), (Integer) args.get(2)));
+                    break;
+                }
+                case "isStreamMute": {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
+                        result.success(singleton.isStreamMute((Integer) args.getFirst()));
+                    } else {
+                        result.success(singleton.isStreamMute((Integer) args.get(0)));
+                    }
+                    break;
+                }
+                case "getAvailableCommunicationDevices": {
+                    result.success(singleton.getAvailableCommunicationDevices());
+                    break;
+                }
+                case "setCommunicationDevice": {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
+                        result.success(singleton.setCommunicationDevice((Integer) args.getFirst()));
+                    }else{
+                        result.success(singleton.setCommunicationDevice((Integer) args.get(0)));
+                    }
+                    break;
+                }
+                case "getCommunicationDevice": {
+                    result.success(singleton.getCommunicationDevice());
+                    break;
+                }
+                case "clearCommunicationDevice": {
+                    result.success(singleton.clearCommunicationDevice());
+                    break;
+                }
+                case "setSpeakerphoneOn": {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
+                        result.success(singleton.setSpeakerphoneOn((Boolean) args.getFirst()));
+                    }else{
+                        result.success(singleton.setSpeakerphoneOn((Boolean) args.get(0)));
+                    }
+                    break;
+                }
+                case "isSpeakerphoneOn": {
+                    result.success(singleton.isSpeakerphoneOn());
+                    break;
+                }
+                case "setAllowedCapturePolicy": {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
+                        result.success(singleton.setAllowedCapturePolicy((Integer) args.getFirst()));
+                    }else{
+                        result.success(singleton.setAllowedCapturePolicy((Integer) args.get(0)));
+                    }
+                    break;
+                }
+                case "getAllowedCapturePolicy": {
+                    result.success(singleton.getAllowedCapturePolicy());
+                    break;
+                }
+                case "isBluetoothScoAvailableOffCall": {
+                    result.success(singleton.isBluetoothScoAvailableOffCall());
+                    break;
+                }
+                case "startBluetoothSco": {
+                    result.success(singleton.startBluetoothSco());
+                    break;
+                }
+                case "stopBluetoothSco": {
+                    result.success(singleton.stopBluetoothSco());
+                    break;
+                }
+                case "setBluetoothScoOn": {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
+                        result.success(singleton.setBluetoothScoOn((Boolean) args.getFirst()));
+                    }else{
+                        result.success(singleton.setBluetoothScoOn((Boolean) args.get(0)));
+                    }
+                    break;
+                }
+                case "isBluetoothScoOn": {
+                    result.success(singleton.isBluetoothScoOn());
+                    break;
+                }
+                case "setMicrophoneMute": {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
+                        result.success(singleton.setMicrophoneMute((Boolean) args.getFirst()));
+                    }else{
+                        result.success(singleton.setMicrophoneMute((Boolean) args.get(0)));
+                    }
+                    break;
+                }
+                case "isMicrophoneMute": {
+                    result.success(singleton.isMicrophoneMute());
+                    break;
+                }
+                case "setMode": {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
+                        result.success(singleton.setMode((Integer) args.getFirst()));
+                    }else{
+                        result.success(singleton.setMode((Integer) args.get(0)));
+                    }
+                    break;
+                }
+                case "getMode": {
+                    result.success(singleton.getMode());
+                    break;
+                }
+                case "isMusicActive": {
+                    result.success(singleton.isMusicActive());
+                    break;
+                }
+                case "generateAudioSessionId": {
+                    result.success(singleton.generateAudioSessionId());
+                    break;
+                }
+                case "setParameters": {
+                    result.success(singleton.setParameters((String) args.get(0)));
+                    break;
+                }
+                case "getParameters": {
+                    result.success(singleton.getParameters((String) args.get(0)));
+                    break;
+                }
+                case "playSoundEffect": {
+                    result.success(singleton.playSoundEffect((Integer) args.get(0), (Double) args.get(1)));
+                    break;
+                }
+                case "loadSoundEffects": {
+                    result.success(singleton.loadSoundEffects());
+                    break;
+                }
+                case "unloadSoundEffects": {
+                    result.success(singleton.unloadSoundEffects());
+                    break;
+                }
+                case "getProperty": {
+                    result.success(singleton.getProperty((String) args.get(0)));
+                    break;
+                }
+                case "getDevices": {
+                    result.success(singleton.getDevices((Integer) args.get(0)));
+                    break;
+                }
+                case "getMicrophones": {
+                    result.success(singleton.getMicrophones());
+                    break;
+                }
+                case "isHapticPlaybackSupported": {
+                    result.success(singleton.isHapticPlaybackSupported());
+                    break;
+                }
+                default: {
+                    result.notImplemented();
+                    break;
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -250,7 +293,7 @@ public class AndroidAudioManager implements MethodCallHandler {
      */
     private static class Singleton {
         private final Handler handler = new Handler(Looper.getMainLooper());
-        private List<AndroidAudioManager> instances = new ArrayList<>();
+        private final List<AndroidAudioManager> instances = new ArrayList<>();
         private AudioFocusRequestCompat audioFocusRequest;
         private BroadcastReceiver noisyReceiver;
         private BroadcastReceiver scoReceiver;
@@ -268,27 +311,41 @@ public class AndroidAudioManager implements MethodCallHandler {
         }
 
         private static Map<String, Object> encodeAudioDevice(AudioDeviceInfo device) {
-            return mapOf(
-                "id", device.getId(),
-                "productName", device.getProductName(),
-                "address", device.getAddress(),
-                "isSource", device.isSource(),
-                "isSink", device.isSink(),
-                "sampleRates", device.getSampleRates(),
-                "channelMasks", device.getChannelMasks(),
-                "channelIndexMasks", device.getChannelIndexMasks(),
-                "channelCounts", device.getChannelCounts(),
-                "encodings", device.getEncodings(),
-                "type", device.getType()
-            );
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                return mapOf(
+                    "id", device.getId(),
+                    "productName", device.getProductName(),
+                    "address", device.getAddress(),
+                    "isSource", device.isSource(),
+                    "isSink", device.isSink(),
+                    "sampleRates", device.getSampleRates(),
+                    "channelMasks", device.getChannelMasks(),
+                    "channelIndexMasks", device.getChannelIndexMasks(),
+                    "channelCounts", device.getChannelCounts(),
+                    "encodings", device.getEncodings(),
+                    "type", device.getType()
+                );
+            }else{
+                return mapOf(
+                        "id", device.getId(),
+                        "productName", device.getProductName(),
+                        "address", null,
+                        "isSource", device.isSource(),
+                        "isSink", device.isSink(),
+                        "sampleRates", device.getSampleRates(),
+                        "channelMasks", device.getChannelMasks(),
+                        "channelIndexMasks", device.getChannelIndexMasks(),
+                        "channelCounts", device.getChannelCounts(),
+                        "encodings", device.getEncodings(),
+                        "type", device.getType()
+                );
+            }
         }
 
         public Singleton(Context applicationContext) {
             this.applicationContext = applicationContext;
             audioManager = (AudioManager)applicationContext.getSystemService(Context.AUDIO_SERVICE);
-            if (Build.VERSION.SDK_INT >= 23) {
-                initAudioDeviceCallback();
-            }
+            initAudioDeviceCallback();
         }
 
         private void initAudioDeviceCallback() {
@@ -314,7 +371,7 @@ public class AndroidAudioManager implements MethodCallHandler {
         }
 
         public boolean isEmpty() {
-            return instances.size() == 0;
+            return instances.isEmpty();
         }
 
         private boolean requestAudioFocus(List<?> args) {
@@ -395,15 +452,19 @@ public class AndroidAudioManager implements MethodCallHandler {
             return audioManager.getStreamMaxVolume(streamType);
         }
         private Object getStreamMinVolume(int streamType) {
-            requireApi(28);
-            return audioManager.getStreamMinVolume(streamType);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                return audioManager.getStreamMinVolume(streamType);
+            }
+            return null;
         }
         private Object getStreamVolume(int streamType) {
             return audioManager.getStreamVolume(streamType);
         }
         private Object getStreamVolumeDb(int streamType, int index, int deviceType) {
-            requireApi(28);
-            return audioManager.getStreamVolumeDb(streamType, index, deviceType);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                return audioManager.getStreamVolumeDb(streamType, index, deviceType);
+            }
+            return null;
         }
         private Object setRingerMode(int ringerMode) {
             audioManager.setRingerMode(ringerMode);
@@ -418,8 +479,9 @@ public class AndroidAudioManager implements MethodCallHandler {
             return audioManager.isStreamMute(streamType);
         }
         private List<Map<String, Object>> getAvailableCommunicationDevices() {
-            requireApi(31);
-            devices = audioManager.getAvailableCommunicationDevices();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                devices = audioManager.getAvailableCommunicationDevices();
+            }
             ArrayList<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
             for (AudioDeviceInfo device : devices) {
                 result.add(encodeAudioDevice(device));
@@ -427,50 +489,53 @@ public class AndroidAudioManager implements MethodCallHandler {
             return result;
         }
         private boolean setCommunicationDevice(Integer deviceId) {
-            requireApi(31);
             for (AudioDeviceInfo device : devices) {
                 if (device.getId() == deviceId) {
-                    return audioManager.setCommunicationDevice(device);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                        return audioManager.setCommunicationDevice(device);
+                    }
                 }
             }
             return false;
         }
         private Map<String, Object> getCommunicationDevice() {
-            requireApi(31);
-            return encodeAudioDevice(audioManager.getCommunicationDevice());
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                return encodeAudioDevice(Objects.requireNonNull(audioManager.getCommunicationDevice()));
+            }
+            return mapOf();
         }
         private Object clearCommunicationDevice() {
-            requireApi(31);
-            audioManager.clearCommunicationDevice();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                audioManager.clearCommunicationDevice();
+            }
             return null;
         }
-        @SuppressWarnings("deprecation")
         private Object setSpeakerphoneOn(boolean enabled) {
             audioManager.setSpeakerphoneOn(enabled);
             return null;
         }
-        @SuppressWarnings("deprecation")
         private Object isSpeakerphoneOn() {
             return audioManager.isSpeakerphoneOn();
         }
         private Object setAllowedCapturePolicy(int capturePolicy) {
-            requireApi(29);
-            audioManager.setAllowedCapturePolicy(capturePolicy);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                audioManager.setAllowedCapturePolicy(capturePolicy);
+            }
             return null;
         }
         private Object getAllowedCapturePolicy() {
-            requireApi(29);
-            return audioManager.getAllowedCapturePolicy();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                return audioManager.getAllowedCapturePolicy();
+            }
+            return null;
         }
         private Object isBluetoothScoAvailableOffCall() {
             return audioManager.isBluetoothScoAvailableOffCall();
         }
-        @SuppressWarnings("deprecation")
         private Object startBluetoothSco() {
             audioManager.startBluetoothSco();
             return null;
         }
-        @SuppressWarnings("deprecation")
         private Object stopBluetoothSco() {
             audioManager.stopBluetoothSco();
             return null;
@@ -479,7 +544,6 @@ public class AndroidAudioManager implements MethodCallHandler {
             audioManager.setBluetoothScoOn(enabled);
             return null;
         }
-        @SuppressWarnings("deprecation")
         private Object isBluetoothScoOn() {
             return audioManager.isBluetoothScoOn();
         }
@@ -535,24 +599,23 @@ public class AndroidAudioManager implements MethodCallHandler {
             requireApi(23);
             ArrayList<Map<String, Object>> result = new ArrayList<>();
             AudioDeviceInfo[] devices = audioManager.getDevices(flags);
-            for (int i = 0; i < devices.length; i++) {
-                AudioDeviceInfo device = devices[i];
+            for (AudioDeviceInfo device : devices) {
                 String address = null;
                 if (Build.VERSION.SDK_INT >= 28) {
                     address = device.getAddress();
                 }
                 result.add(mapOf(
-                    "id", device.getId(),
-                    "productName", device.getProductName(),
-                    "address", address,
-                    "isSource", device.isSource(),
-                    "isSink", device.isSink(),
-                    "sampleRates", intArrayToList(device.getSampleRates()),
-                    "channelMasks", intArrayToList(device.getChannelMasks()),
-                    "channelIndexMasks", intArrayToList(device.getChannelIndexMasks()),
-                    "channelCounts", intArrayToList(device.getChannelCounts()),
-                    "encodings", intArrayToList(device.getEncodings()),
-                    "type", device.getType()
+                        "id", device.getId(),
+                        "productName", device.getProductName(),
+                        "address", address,
+                        "isSource", device.isSource(),
+                        "isSink", device.isSink(),
+                        "sampleRates", intArrayToList(device.getSampleRates()),
+                        "channelMasks", intArrayToList(device.getChannelMasks()),
+                        "channelIndexMasks", intArrayToList(device.getChannelIndexMasks()),
+                        "channelCounts", intArrayToList(device.getChannelCounts()),
+                        "encodings", intArrayToList(device.getEncodings()),
+                        "type", device.getType()
                 ));
             }
             return result;
@@ -560,40 +623,46 @@ public class AndroidAudioManager implements MethodCallHandler {
         private Object getMicrophones() throws IOException {
             requireApi(28);
             ArrayList<Map<String, Object>> result = new ArrayList<>();
-            List<MicrophoneInfo> microphones = audioManager.getMicrophones();
-            for (MicrophoneInfo microphone : microphones) {
-                List<List<Double>> frequencyResponse = new ArrayList<>();
-                for (Pair<Float, Float> pair : microphone.getFrequencyResponse()) {
-                    frequencyResponse.add(new ArrayList<Double>(Arrays.asList((double)((float)pair.first), (double)((float)pair.second))));
-                }
-                List<List<Integer>> channelMapping = new ArrayList<>();
-                for (Pair<Integer, Integer> pair : microphone.getChannelMapping()) {
-                    channelMapping.add(new ArrayList<Integer>(Arrays.asList(pair.first, pair.second)));
-                }
-                result.add(mapOf(
-                    "description", microphone.getDescription(),
-                    "id", microphone.getId(),
-                    "type", microphone.getType(),
-                    "address", microphone.getAddress(),
-                    "location", microphone.getLocation(),
-                    "group", microphone.getGroup(),
-                    "indexInTheGroup", microphone.getIndexInTheGroup(),
-                    "position", coordinate3fToList(microphone.getPosition()),
-                    "orientation", coordinate3fToList(microphone.getOrientation()),
-                    "frequencyResponse", frequencyResponse,
-                    "channelMapping", channelMapping,
-                    "sensitivity", microphone.getSensitivity(),
-                    "maxSpl", microphone.getMaxSpl(),
-                    "minSpl", microphone.getMinSpl(),
-                    "directionality", microphone.getDirectionality()
-                ));
-            }
-            return result;
-        }
+            List<MicrophoneInfo> microphones;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                microphones = audioManager.getMicrophones();
 
+                for (MicrophoneInfo microphone : microphones) {
+                    List<List<Double>> frequencyResponse = new ArrayList<>();
+                    for (Pair<Float, Float> pair : microphone.getFrequencyResponse()) {
+                        frequencyResponse.add(new ArrayList<Double>(Arrays.asList((double) ((float) pair.first), (double) ((float) pair.second))));
+                    }
+                    List<List<Integer>> channelMapping = new ArrayList<>();
+                    for (Pair<Integer, Integer> pair : microphone.getChannelMapping()) {
+                        channelMapping.add(new ArrayList<Integer>(Arrays.asList(pair.first, pair.second)));
+                    }
+                    result.add(mapOf(
+                            "description", microphone.getDescription(),
+                            "id", microphone.getId(),
+                            "type", microphone.getType(),
+                            "address", microphone.getAddress(),
+                            "location", microphone.getLocation(),
+                            "group", microphone.getGroup(),
+                            "indexInTheGroup", microphone.getIndexInTheGroup(),
+                            "position", coordinate3fToList(microphone.getPosition()),
+                            "orientation", coordinate3fToList(microphone.getOrientation()),
+                            "frequencyResponse", frequencyResponse,
+                            "channelMapping", channelMapping,
+                            "sensitivity", microphone.getSensitivity(),
+                            "maxSpl", microphone.getMaxSpl(),
+                            "minSpl", microphone.getMinSpl(),
+                            "directionality", microphone.getDirectionality()
+                    ));
+                }
+                return result;
+
+            }
+            return null;
+        }
         private Object isHapticPlaybackSupported() {
-            requireApi(29);
-            return AudioManager.isHapticPlaybackSupported();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                return AudioManager.isHapticPlaybackSupported();
+            }return null;
         }
 
         private void registerNoisyReceiver() {
@@ -660,10 +729,8 @@ public class AndroidAudioManager implements MethodCallHandler {
 
         public void dispose() {
             abandonAudioFocus();
-            if (Build.VERSION.SDK_INT >= 23) {
                 disposeAudioDeviceCallback();
-            }
-            applicationContext = null;
+                applicationContext = null;
             audioManager = null;
         }
 
@@ -687,25 +754,31 @@ public class AndroidAudioManager implements MethodCallHandler {
 
     static ArrayList<Integer> intArrayToList(int[] a) {
         ArrayList<Integer> list = new ArrayList<>();
-        for (int i = 0; i < a.length; i++) {
-            list.add(a[i]);
+        for (int j : a) {
+            list.add(j);
         }
         return list;
     }
 
     static ArrayList<Double> doubleArrayToList(double[] a) {
         ArrayList<Double> list = new ArrayList<>();
-        for (int i = 0; i < a.length; i++) {
-            list.add(a[i]);
+        for (double v : a) {
+            list.add(v);
         }
         return list;
     }
 
     static ArrayList<Double> coordinate3fToList(MicrophoneInfo.Coordinate3F coordinate) {
         ArrayList<Double> list = new ArrayList<>();
-        list.add((double)coordinate.x);
-        list.add((double)coordinate.y);
-        list.add((double)coordinate.z);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            list.add((double)coordinate.x);
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            list.add((double)coordinate.y);
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            list.add((double)coordinate.z);
+        }
         return list;
     }
 

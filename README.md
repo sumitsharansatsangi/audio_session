@@ -104,8 +104,8 @@ Observe when devices are added or removed:
 
 ```dart
 session.devicesChangedEventStream.listen((event) {
-  print('Devices added:   ${event.devicesAdded}');
-  print('Devices removed: ${event.devicesRemoved}');
+  debugPrint('Devices added:   ${event.devicesAdded}');
+  debugPrint('Devices removed: ${event.devicesRemoved}');
 });
 ```
 
